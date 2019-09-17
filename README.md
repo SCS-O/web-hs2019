@@ -1,4 +1,4 @@
-# web-hs2019
+# web-hs2019 (meme-shop)
 
 Projektwebseite Herbstsemester 2019
 
