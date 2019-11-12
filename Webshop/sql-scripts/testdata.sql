@@ -10,3 +10,10 @@ VALUES
 (NULL, 'de_article1', 'lorem ipsum', 'fr_article1', 'lorem ipsum', 'en_article1', 'lorem ipsum', '12.5', 'foo.bar.com');
 
 INSERT INTO `orders` (`PK_Orders`, `FK_Account`, `OrderState`) VALUES (NULL, '2', 'ordered'), (NULL, '1', 'cancelled');
+
+
+INSERT INTO `orders_article` (`PK_Orders_Article`, `FK_Orders`, `FK_Article`) VALUES
+(1, 1, 2),
+(2, 2, 1),
+(3, 2, 3),
+(4, 2, 2);
