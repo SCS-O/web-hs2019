@@ -1,14 +1,15 @@
-#DROP DATABASE meme_shop
-#DROP TABLE account
-#DROP TABLE order
-#DROP TABLE product_article
-
 #CREATE DATABASE meme_shop;
+#DROP DATABASE meme_shop;
+
+#DROP TABLE orders_article;
+#DROP TABLE article;
+#DROP TABLE order;
+#DROP TABLE account;
 
 #USE meme_shop;
 
 CREATE TABLE account (
-    PK_Account int NOT NULL,
+    PK_Account int NOT NULL AUTO_INCREMENT,
     FirstName varchar(100) NOT NULL, 
     LastName varchar(100) NOT NULL, 
     Address varchar(255) NOT NULL,
@@ -20,7 +21,7 @@ CREATE TABLE account (
 );
 
 CREATE TABLE orders(
-    PK_Orders int NOT NULL,
+    PK_Orders int NOT NULL AUTO_INCREMENT,
     FK_Account int NOT NULL,
     OrderState varchar(255) NOT NULL,
     UNIQUE(PK_Orders),
@@ -30,14 +31,14 @@ CREATE TABLE orders(
 
 
 CREATE TABLE article(
-    PK_Article int NOT NULL,
+    PK_Article int NOT NULL AUTO_INCREMENT,
     Article_Name_DE varchar(255) NOT NULL,
     Article_Description_DE TEXT(2048),
     Article_Name_FR varchar(255) NOT NULL,
     Article_Description_FR TEXT(2048),
     Article_Name_EN varchar(255) NOT NULL,
     Article_Description_EN TEXT(2048),
-    Price DECIMAL NOT NULL,
+    Price DECIMAL(20,2) NOT NULL,
     Picture_URL TEXT(2048) NOT NULL,
     UNIQUE(PK_Article),
     PRIMARY KEY (PK_Article)
@@ -45,7 +46,7 @@ CREATE TABLE article(
 
 
 CREATE TABLE orders_article(
-    PK_Orders_Article int NOT NULL,
+    PK_Orders_Article int NOT NULL AUTO_INCREMENT,
     FK_Orders int NOT NULL,
     FK_Article int NOT NULL,
     UNIQUE(PK_Orders_Article),
