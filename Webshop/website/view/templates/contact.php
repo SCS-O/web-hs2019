@@ -1,0 +1,1 @@
+<p>boring static content, what did you expect?</p>

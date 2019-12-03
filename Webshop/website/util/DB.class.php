@@ -1,22 +1,19 @@
 <?php
-
-
 /*
  * Singleton class copied from slides
+ * Author: Locher Philipp
  * Slide 31: http://www.sws.bfh.ch/~locher/webprog/pdf/topic09.pdf
  */
 class DB extends mysqli{
-    const HOST = "localhost";
-    const USER = "www";
-    const PW = "1234";
-    const DB_NAME = "meme_shop";
+
 
     static private $instance;
     
-    public function __construct() {
-        parent::__construct(
-        self::HOST, self::USER, self::PW,self::DB_NAME);
-    }
+	
+	static public function create($host, $user, $pw, $dbname) {
+		@self::$instance = new DB($host, $user, $pw, $dbname);
+		return self::$instance->connect_errno == 0;
+	}
 
     static public function getInstance() 
     {
@@ -31,6 +28,12 @@ class DB extends mysqli{
 
     static public function doQuery($sql) {
         //TODO: May do some exception handling right here
+        //TODO: Prevent some injection possibilities
         return self::getInstance()->query($sql);
     }
+
+
+	public function __construct($host, $user, $pw, $dbname) {
+		parent::__construct($host, $user, $pw, $dbname);
+	}
 }

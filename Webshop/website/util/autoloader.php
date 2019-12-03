@@ -5,6 +5,8 @@ function __autoload($class_name){
     $dirs = [
     '../util/',
     '../model/',
+    '../controller/',
+    '../view/',
     ];
 
     // Try to load class

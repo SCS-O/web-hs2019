@@ -1,58 +1,34 @@
 <?php
-    require_once("util/autoloader.php");
+	// F R O N T   C O N T R O L L E R
 
-?>
+	require_once 'util/autoloader.php';
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>title</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <h1>Example account access</h1>
-    <?php
-    
-      $accounts = Account::getAccounts();
-      foreach ($accounts as $account)
-      {
-        echo("<p>" . $account . "</p>");
-      }
-    ?>
+	$request = new Request();
+	//$action = isset($_GET['action']) ? $_GET['action'] : 'home';
+	$action = $request->getParameter('action', 'home');
+  
+    //TODO: Auslagern
+    const HOST = "localhost";
+    const USER = "www";
+    const PW = "1234";
+    const DB_NAME = "meme_shop";
 
-    <h1>Example article access</h1>
-    <?php
-    
-      $articles = Article::getArticles();
-      foreach ($articles as $article)
-      {
-        echo("<p>" . $article . "</p>");
-      }
-    ?>
-    <h2>single article with loalization</h2>
+	// Inizialize model
+	if (!DB::create(HOST, USER, PW, DB_NAME)) {
+		die("Unable to connect to database [".DB::getInstance()->connect_error."]");
+	}
 
-    <?php
-    
-      $article3 = Article::getArticleById(3);
-      echo("<p>" . $article3->getArticleName("fr") . "<br />" . $article3->getArticleDescription("fr") . "</p>");
-    ?>
+	try {
+		// Create controller
+		$controller = new Controller();
+		$tpl = $controller->$action($request);
 
-    <h1>Example order access</h1>
-    <?php
-      $orders = Order::getOrders();
-      foreach ($orders as $order)
-      {
-        echo("<p>OrderId: " . $order->getOrderId() . "</p>");
-        echo("<p>" . $order->getOrdererAccount()->getName() . "</p>");
-        
-        foreach($order->getOrderArticles() as $article)
-        {
-          echo ("Article: " . $article . "<br / >");
-        }
-        
-      }
-    ?>
-  </body>
-</html>
+		$tpl = $tpl ? $tpl : $action;
+
+		// Create view
+		$view = new View($controller);
+		$view->render($tpl);
+	} catch (Exception $e) {
+		die("<h2>There was an ERROR!</h2><p>There was an error processing action '$action'!</p><code> -> ".$e->getMessage()."</code>");
+	}
+
