@@ -6,7 +6,7 @@
 	$request = new Request();
 	//$action = isset($_GET['action']) ? $_GET['action'] : 'home';
 	$action = $request->getParameter('action', 'home');
-  
+	
     //TODO: Auslagern
     const HOST = "localhost";
     const USER = "www";
@@ -21,6 +21,7 @@
 	try {
 		// Create controller
 		$controller = new Controller();
+
 		$tpl = $controller->$action($request);
 
 		$tpl = $tpl ? $tpl : $action;

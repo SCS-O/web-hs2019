@@ -6,7 +6,6 @@
  */
 class DB extends mysqli{
 
-
     static private $instance;
     
 	

@@ -40,6 +40,7 @@ CREATE TABLE article(
     Article_Description_EN TEXT(2048),
     Price DECIMAL(20,2) NOT NULL,
     Picture_URL TEXT(2048) NOT NULL,
+    Thumbnail_URL TEXT(2048) NOT NULL,
     UNIQUE(PK_Article),
     PRIMARY KEY (PK_Article)
 );

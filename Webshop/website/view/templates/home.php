@@ -1,42 +1,20 @@
-    <h1>Example account access</h1>
-    <?php
-    
-      $accounts = Account::getAccounts();
-      foreach ($accounts as $account)
-      {
-        echo("<p>" . $account . "</p>");
-      }
-    ?>
-
-    <h1>Example article access</h1>
-    <?php
-    
-      $articles = Article::getArticles();
-      foreach ($articles as $article)
-      {
-        echo("<p>" . $article . "</p>");
-      }
-    ?>
-    <h2>single article with loalization</h2>
-
-    <?php
-    
-      $article3 = Article::getArticleById(3);
-      echo("<p>" . $article3->getArticleName("fr") . "<br />" . $article3->getArticleDescription("fr") . "</p>");
-    ?>
-
-    <h1>Example order access</h1>
-    <?php
-      $orders = Order::getOrders();
-      foreach ($orders as $order)
-      {
-        echo("<p>OrderId: " . $order->getOrderId() . "</p>");
-        echo("<p>" . $order->getOrdererAccount()->getName() . "</p>");
-        
-        foreach($order->getOrderArticles() as $article)
-        {
-          echo ("Article: " . $article . "<br / >");
-        }
-        
-      }
-    ?>
+<section class="main-grid-layout">
+  <h2>Hottest_Memes (tranlate)</h2>
+  <?php
+    foreach ($articles as $article)
+    {
+      ?>
+      <div class="article-container">
+        <div class="article-description"><?php echo($article->getArticleName($language)); ?></div>
+        <div class="article-image"><img class="thumbnail" src="<?php echo($article->getArticleThumbnail()); ?>" alt="Bild kaputt" /></div>
+        <div>
+          <form class="order-article" method="post">
+            <input type="hidden" name="article-id" value="<?php echo($article->getArticleId()); ?>"/>
+            <input type="submit" value="Add to cart (to be translated)"/>
+          </form>
+        </div>
+      </div>
+      <?php
+    }
+  ?>
+</section>

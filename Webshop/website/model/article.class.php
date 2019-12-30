@@ -9,13 +9,14 @@ class Article{
     private $Article_Description_EN;
     private $Price;
     private $Picture_URL;
+    private $Thumbnail_URL;
 
     public function getArticleName($lang) {
-        if($lang === "de")
+        if($lang === "de-CH")
         {
             return $this->Article_Name_DE;
         }
-        else if ($lang === "fr"){
+        else if ($lang === "fr-CH"){
             return $this->Article_Name_FR;
         }
         else{
@@ -24,22 +25,39 @@ class Article{
     }
     
     public function getArticleDescription($lang) {
-        if($lang === "de")
+        if($lang === "de-CH")
         {
             return $this->Article_Description_DE;
         }
-        else if ($lang === "fr"){
+        else if ($lang === "fr-CH"){
             return $this->Article_Description_FR;
         }
         else{
             return $this->Article_Description_EN;
         }
     }
+    
+    public function getArticlePrice() {
+        return $this->Price;
+    }
+
+    //Only use this after the meme has been sold
+    public function getArticlePicture() {
+        return $this->Picture_URL;
+    }
+    
+    public function getArticleThumbnail() {
+        return $this->Thumbnail_URL;
+    }
+
+    public function getArticleId() {
+        return $this->PK_Article;
+    }
+       
 
     public function __toString(){
         return sprintf("%s, %f", $this->Article_Name_EN, $this->Price);
-    }
-        
+    }        
 
     static public function getArticles() {
         $Articles = array();

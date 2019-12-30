@@ -1,0 +1,8 @@
+table.main-grid-layout{
+    width: 400px;
+}
+
+img.thumbnail{    
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
