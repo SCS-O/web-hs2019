@@ -10,15 +10,9 @@
 <body>
 	<nav>
 		<a href="index.php">HOME</a> 
-		<a href="index.php?action=contact">Contact</a>
 		<a href="index.php?action=admin_home">Admin</a>
-		<a href="index.php?language=de-CH">De</a>
-		<a href="index.php?language=fr-CH">Fr</a>
-		<a href="index.php?language=it-CH">It</a>
+		<a href="index.php?action=admin_userlist">User List</a>
  	</nav>
- 	<section class="cart-holder">
-	 	 <?php $cart->render($language); ?>
-  	</section>
 	<?php include $innerTpl; ?>
 </body>
 </html>

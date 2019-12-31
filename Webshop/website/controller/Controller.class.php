@@ -6,8 +6,9 @@
 class Controller {    
 	private $data = array();
 	private $title = "";
+	private $isAdmin = false;
 
-	// A C T I O N S
+	// ACTION - Public 
 	public function home(Request $request) {
 		$this->initializeController($request);
 		$this->title = "Home";
@@ -19,9 +20,42 @@ class Controller {
 		$this->title = "Contact";
 	}
 
+	// ACTION - Logged - In
+
+
+	//ACTION ADMIN
+
+	public function admin_home(Request $request) {
+		//TODO ADD ADMIN SECURITY
+		$this->isAdmin = true;
+		$this->initializeController($request);
+		$this->title = "Admin Home";
+	}
+
+	public function admin_userlist(Request $request) {
+		//TODO ADD ADMIN SECURITY
+		$this->isAdmin = true;
+		$this->initializeController($request);
+		$this->title = "Admin User List";
+		$this->data["accounts"] = Account::getAccounts();
+	}
+
+	public function admin_useredit(Request $request) {
+		//TODO ADD ADMIN SECURITY
+		$this->isAdmin = true;
+		$this->initializeController($request);
+		$this->title = "Admin User Edit";
+
+		if($request->isParameter('accountid'))
+		{
+			throw new Exception("Bad request");
+		}
+
+		$this->data["account"] = Account::getAccountsById($request->getParameter('accountid'));
+	}
+
     //exception if the action does not exist
 	public function __call($function, $args) {
-		$this->initializeController($request);
 		throw new Exception("The action '$function' does not exist!");
 	}
     
@@ -32,6 +66,10 @@ class Controller {
     
 	public function getTitle() {
 		return $this->title;
+	}
+
+	public function isAdmin() {
+		return $this->isAdmin;
 	}
     
 	// P R I V A T E  H E L P E R S

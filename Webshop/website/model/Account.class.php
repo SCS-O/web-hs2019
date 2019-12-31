@@ -12,6 +12,30 @@ class Account{
         return $this->FirstName . " " . $this->LastName;
     }
 
+    public function getAccountId() {
+        return $this->PK_Account;
+    }
+
+    public function getFirstName() {
+        return $this->FirstName;
+    }
+
+    public function getLastName() {
+        return $this->LastName;
+    }
+
+    public function getAddress() {
+        return $this->Address;
+    }
+
+    public function getCity() {
+        return $this->City;
+    }
+
+    public function getEmail() {
+        return $this->Email;
+    }
+
     public function __toString(){
         return sprintf("%d) %s, %s, %s, %s", $this->PK_Account, $this->getName(), $this
         ->Address, $this->City, $this->Email);

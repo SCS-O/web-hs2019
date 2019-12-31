@@ -23,6 +23,14 @@ class View {
 		}
 		$title = $this->controller->getTitle();
 		$title = "MVC" .($title ? " - ".$title : "");
-		include __DIR__ ."/templates/main.php";
+
+		//this is only for visual purposes security is handled by the controllers
+		if($this->controller->isAdmin())
+		{
+			include __DIR__ ."/templates/admin.php";
+		}
+		else{
+			include __DIR__ ."/templates/main.php";
+		}
 	}
 }
