@@ -1,5 +1,5 @@
 $(function(){
-				$('#form').submit(function(e){
+				$('.order-article').submit(function(e){
 					e.preventDefault();
 					//AJAX
 					$.ajax({
@@ -7,9 +7,7 @@ $(function(){
 						type: 'POST',
 						data: $(this).serialize(),
 						success: function(response) {
-							$('.order-atricle').fadeOut(500, function(){
-									$(this).empty().append(response).fadeIn(500);
-							});
+							$('section.cart-holder').empty().append(response);
 						},
 						error: function() {
 							console.log("Uppppsssss....");

@@ -8,11 +8,11 @@ class Cart {
 	private $articles = [];
 
 	public function addItem($articleId) {
-        $this->articles[$articleID] = true;
+        $this->articles[$articleId] = Article::getArticleById($articleId);
 	}
 
 	public function removeItem($articleId) {
-        $this->articles[$articleID] = false;
+		unset($this->articles[$articleId]);
 	}
 
 	public function getItems() {
@@ -26,7 +26,7 @@ class Cart {
 	public function getTotal() {
 		$total = 0;
 		foreach($this->articles as $article) {
-			$p = Article::getArticleById($article)->getArticlePrice();
+			$p =  $article->getArticlePrice();
 			$total += $p;
 		}
 		return $total;
@@ -37,9 +37,8 @@ class Cart {
 			echo "<div class=\"cart empty\">[Empty Cart]</div>";
 		} else {
 			echo "<div class=\"cart\"><table>";
-			echo "<tr><th>Meme-ID (tranlate cart please)</th><th>#</th></tr>";
+			echo "<tr><th>Meme-ID (tranlate cart please)</th></tr>";
 			foreach($this->articles as $article) {
-				$article = Article::getArticleById($article);
 				echo "<tr><td>".$article->getArticleName($language)."</td></tr>";
 			}
 			echo "<tr><th>TOTAL</th><th>".$this->getTotal()."</th></tr>";

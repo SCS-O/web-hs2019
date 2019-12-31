@@ -15,11 +15,13 @@ class Controller {
 	}
 
 	public function contact(Request $request) {
+		$this->initializeController($request);
 		$this->title = "Contact";
 	}
 
     //exception if the action does not exist
 	public function __call($function, $args) {
+		$this->initializeController($request);
 		throw new Exception("The action '$function' does not exist!");
 	}
     
