@@ -79,8 +79,6 @@ class Controller {
 		}
 
 		//TODO ADD MESSAGE SUCESS SAVE
-
-
 		$this->data["account"] = Account::getAccountById($request->getParameter('accountid'));
 	}
 
@@ -137,6 +135,21 @@ class Controller {
 		$this->title = "Admin meme overview";
 
 		$this->data["articles"] = Article::getArticles();
+	}
+
+	public function addMemes(Request $request) {
+		//TODO ADD ADMIN SECURITY
+		$this->isAdmin = true;
+		$this->initializeController($request);
+
+		if(!$request->isParameter("subreddit")){
+			throw new Exception("Bad request");
+		}
+
+		$this->importMemesFromSubreddit($request->getParameter("subreddit"), 5);
+		//TODO ADD MESSAGE SUCESS SAVE
+
+		return $this->internalRedirect('admin_meme_overview', $request);
 	}
 
 	// AJAX CALL
@@ -223,6 +236,51 @@ class Controller {
 		return $resp;
 	}
 
+	private function importMemesFromSubreddit($subreddit, $count)
+	{
+		$json = $this->importMemesFromReddit($subreddit);
+		
+		$cnt = 0;
+		$listMemes = array();
+		foreach($json['data']['children'] as $post)
+		{
+			//no adult content ;-)
+			if($post['data']['over_18'] === true)
+			{
+				continue;
+			}
+			//only reddit pictures
+			if(preg_match("/^https:\/\/i.redd.it.\w*.jpg$/", $post['data']['url']))
+			{
+				continue;
+			}
+
+			$meme_id = $post['data']['id'];
+			$listMemes[$meme_id] = Article::create(
+				//link title (article name de)
+				$post['data']['title'], 
+				$post['data']['permalink'], 
+				$post['data']['id'], 
+				//meme author (article desc fr)
+				$post['data']['author'], 
+				$post['data']['created'], 
+				//subreddit desc (article descrption en)
+				$post['data']['subreddit'], 
+				$post['data']['score'], 
+				$post['data']['url'], 
+				$post['data']['thumbnail']
+			);
+			$listMemes[$meme_id]->saveObject();
+
+			$cnt++;
+			if(!($cnt < $count))
+			{
+				break;
+			}
+		}
+		return $listMemes;
+	}
+
 	private function internalRedirect($action, $request) {
 		$tpl = $this->$action($request);
 		$this->data["action"] = $tpl ? $tpl : $action;
@@ -250,6 +308,7 @@ class Controller {
             return $this->findString($key, $this->data["language"]);
         }
 	}
+	
 
 	//for translation purposes
     private function splitStrings($str) {

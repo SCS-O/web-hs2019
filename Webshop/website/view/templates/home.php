@@ -5,7 +5,7 @@
     {
       ?>
       <div class="article-container">
-        <div class="article-description"><?php echo($article->getArticleName($language)); ?></div>
+        <div class="article-description"><?php echo($article->getArticleTitle()); ?></div>
         <div class="article-image"><img class="thumbnail" src="<?php echo($article->getArticleThumbnail()); ?>" alt="<?php echo $this->controller->getTranslation("img_not_found") ?>" /></div>
         <div>
           <form class="order-article" method="post">

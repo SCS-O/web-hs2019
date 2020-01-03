@@ -1,46 +1,57 @@
 <?php
 class Article{
-    private $PK_Article;
-    private $Article_Name_DE;
-    private $Article_Description_DE;
-    private $Article_Name_FR;
-    private $Article_Description_FR;
-    private $Article_Name_EN;
-    private $Article_Description_EN;
+    private $PK_Article = null;
+    private $Article_Title;
+    private $Article_Permalink;
+    private $ArticleId;
+    private $ArticleAuthor;
+    private $ArticleCreationDate;
+    private $ArticleSubreddit;
     private $Price;
     private $Picture_URL;
     private $Thumbnail_URL;
 
-    public function getArticleName($lang) {
-        if($lang === "de-CH")
-        {
-            return $this->Article_Name_DE;
-        }
-        else if ($lang === "fr-CH"){
-            return $this->Article_Name_FR;
-        }
-        else if ($lang === "en-US"){
-            return $this->Article_Name_EN;
-        }
-        else{
-            return $this->Article_Name_EN;
-        }
+    //https://stackoverflow.com/questions/1699796/best-way-to-do-multiple-constructors-in-php
+    public static function create($Article_Title, $Article_Permalink, $ArticleId, $ArticleAuthor, $ArticleCreationDate, $ArticleSubreddit, $Price, $Picture_URL, $Thumbnail_URL)
+    {
+        $instance = new self();
+
+        $instance->Article_Title = $Article_Title;
+        $instance->Article_Permalink = $Article_Permalink;
+        $instance->ArticleId = $ArticleId;
+        $instance->ArticleAuthor = $ArticleAuthor;
+        $instance->ArticleCreationDate = $ArticleCreationDate;
+        $instance->ArticleSubreddit = $ArticleSubreddit;
+        $instance->Price = $Price;
+        $instance->Picture_URL = $Picture_URL;
+        $instance->Thumbnail_URL = $Thumbnail_URL;
+
+        return $instance;
+    }
+
+    public function getArticleTitle() {
+
+        return $this->Article_Title;
+   }
+
+    public function getArticleRedditId(){
+        return $this->ArticleId;
+    }
+
+    public function getArticleCreationDate() {
+        return $this->ArticleCreationDate;
     }
     
-    public function getArticleDescription($lang) {
-        if($lang === "de-CH")
-        {
-            return $this->Article_Description_DE;
-        }
-        else if ($lang === "fr-CH"){
-            return $this->Article_Description_FR;
-        }
-        else if ($lang === "en-US"){
-            return $this->Article_Description_EN;
-        }
-        else{
-            return $this->Article_Description_EN;
-        }
+    public function getArticlePermalink() {
+        return $this->Article_Permalink;
+    }
+    
+    public function getArticleAuthor() {
+        return $this->ArticleAuthor;
+    }
+    
+    public function getArticleSubreddit() {
+        return $this->ArticleSubreddit;
     }
     
     public function getArticlePrice() {
@@ -60,9 +71,8 @@ class Article{
         return $this->PK_Article;
     }
        
-
     public function __toString(){
-        return sprintf("%s, %f", $this->Article_Name_EN, $this->Price);
+        return sprintf("%s, %f", $this->ArticleCreationDate, $this->Price);
     }        
 
     static public function getArticles() {
@@ -87,4 +97,39 @@ class Article{
         }
         return null;
     }   
+    
+    public function saveObject()
+    {
+        if(isset($this->PK_Account) && $this->PK_Account !== null)
+        {
+            $res = DB::doQuery(sprintf("UPDATE article
+                SET Article_Title = '%s', Article_Permalink = '%s', ArticleId = '%s', ArticleAuthor, ArticleCreationDate = '%s', ArticleSubreddit = '%s', Price = %d, Picture_URL = '%s', Thumbnail_URL = '%s'
+                WHERE PK_Article = %d", 
+                mysqli_real_escape_string(DB::getInstance(), $this->Article_Title), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Article_Permalink), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleId), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleAuthor), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleCreationDate), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleSubreddit), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Price), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Picture_URL), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Thumbnail_URL), 
+                $this->PK_Article
+                ));
+        }
+        else{
+            $res = DB::doQuery(sprintf("INSERT INTO article(Article_Title, Article_Permalink, ArticleId, ArticleAuthor, ArticleCreationDate, ArticleSubreddit, Price, Picture_URL, Thumbnail_URL)
+            VALUES('%s', '%s', '%s', '%s', '%s', '%s', %d,'%s', '%s');", 
+                mysqli_real_escape_string(DB::getInstance(), $this->Article_Title), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Article_Permalink), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleId), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleAuthor), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleCreationDate), 
+                mysqli_real_escape_string(DB::getInstance(), $this->ArticleSubreddit), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Price), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Picture_URL), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Thumbnail_URL)
+            ));
+        }
+    }
 }

@@ -39,7 +39,7 @@ class Cart {
 			echo "<div class=\"cart\"><table>";
 			echo "<tr><th>". $controller->getTranslation("cart_title") ."</th></tr>";
 			foreach($this->articles as $article) {
-				echo "<tr><td>".$article->getArticleName($controller->getLanguage())."</td></tr>";
+				echo "<tr><td>".$article->getArticleTitle()."</td></tr>";
 			}
 			echo "<tr><th>". $controller->getTranslation("cart_total") ."</th><th>".$this->getTotal()."</th></tr>";
 			echo "</table></div>";

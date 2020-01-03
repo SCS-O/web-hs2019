@@ -13,14 +13,14 @@ class AjaxView {
 	}
 
 	public function render($tpl) {
-		$innerTpl = __DIR__ ."/ajax_templates/$tpl.php";
-		if(!file_exists($innerTpl)) {
-			throw new Exception("The template '$innerTpl' does not exist!");
+		$tpl = __DIR__ ."/ajax_templates/$tpl.php";
+		if(!file_exists($tpl)) {
+			throw new Exception("The template '$tpl' does not exist!");
 		}
 		foreach($this->controller->getData() as $key=>$value) {
 			$$key = $value;
 		}
 		
-		include __DIR__ ."/ajax_templates/ajax.php";
+		include $tpl;
 	}
 }

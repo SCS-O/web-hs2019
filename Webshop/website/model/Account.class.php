@@ -71,17 +71,23 @@ class Account{
         
     public function saveObject()
     {
-        $res = DB::doQuery(sprintf("UPDATE account
-            SET FirstName = '%s', LastName = '%s', Address = '%s', City = '%s', Email = '%s', PasswordHash = '%s'
-            WHERE PK_Account = %d", 
-                mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
-                mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
-                mysqli_real_escape_string(DB::getInstance(), $this->Address), 
-                mysqli_real_escape_string(DB::getInstance(), $this->City), 
-                mysqli_real_escape_string(DB::getInstance(), $this->Email), 
-                mysqli_real_escape_string(DB::getInstance(), $this->PasswordHash), 
-                mysqli_real_escape_string(DB::getInstance(), $this->PK_Account))
-            );
+        if($this->PK_Account !== null)
+        {
+            $res = DB::doQuery(sprintf("UPDATE account
+                SET FirstName = '%s', LastName = '%s', Address = '%s', City = '%s', Email = '%s', PasswordHash = '%s'
+                WHERE PK_Account = %d", 
+                    mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->Address), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->City), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->Email), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->PasswordHash), 
+                    mysqli_real_escape_string(DB::getInstance(), $this->PK_Account))
+                );
+        }
+        else{
+            //TODO ADD INSERT
+        }
     }
 
     static public function getAccounts() {

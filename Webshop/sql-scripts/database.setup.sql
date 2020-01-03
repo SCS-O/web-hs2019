@@ -32,12 +32,12 @@ CREATE TABLE orders(
 
 CREATE TABLE article(
     PK_Article int NOT NULL AUTO_INCREMENT,
-    Article_Name_DE varchar(255) NOT NULL,
-    Article_Description_DE TEXT(2048),
-    Article_Name_FR varchar(255) NOT NULL,
-    Article_Description_FR TEXT(2048),
-    Article_Name_EN varchar(255) NOT NULL,
-    Article_Description_EN TEXT(2048),
+    Article_Title varchar(255) NOT NULL,
+    Article_Permalink TEXT(2048),
+    ArticleId varchar(255) NOT NULL,
+    ArticleAuthor TEXT(2048),
+    ArticleCreationDate varchar(255) NOT NULL,
+    ArticleSubreddit TEXT(2048),
     Price DECIMAL(20,2) NOT NULL,
     Picture_URL TEXT(2048) NOT NULL,
     Thumbnail_URL TEXT(2048) NOT NULL,
