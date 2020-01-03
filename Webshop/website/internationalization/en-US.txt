@@ -14,3 +14,6 @@ article_name_en=Article name(English)
 name=Name
 button_edit_account=Edit Account
 email=Email
+cart_emtpy=Cart empty
+cart_title=Cart
+cart_total=Total

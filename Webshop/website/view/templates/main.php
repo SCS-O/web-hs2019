@@ -29,7 +29,7 @@
 		<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
  	</nav>
  	<section class="cart-holder">
-	 	 <?php $cart->render($language); ?>
+	 	 <?php $cart->render($this->controller); ?>
   	</section>
 	<?php include $innerTpl; ?>
 </body>

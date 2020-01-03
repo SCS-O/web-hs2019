@@ -23,6 +23,10 @@ class Controller {
 		return $this->data["request"];
 	}
 
+	public function getLanguage() {
+		return $this->data["language"];
+	}
+
 	public function getDebugMessage() {
 		return $this->debugMessage;
 	}

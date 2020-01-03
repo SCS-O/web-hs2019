@@ -1,2 +1,2 @@
 <?php
-$cart->render($language);
+$cart->render($this->controller);

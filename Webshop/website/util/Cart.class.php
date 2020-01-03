@@ -32,16 +32,16 @@ class Cart {
 		return $total;
 	}
 
-	public function render($language) {
+	public function render($controller) {
 		if ($this->isEmpty()) {
-			echo "<div class=\"cart empty\">[Empty Cart]</div>";
+			echo "<div class=\"cart empty\">" . $controller->getTranslation("cart_emtpy") . "</div>";
 		} else {
 			echo "<div class=\"cart\"><table>";
-			echo "<tr><th>Meme</th></tr>";
+			echo "<tr><th>". $controller->getTranslation("cart_title") ."</th></tr>";
 			foreach($this->articles as $article) {
-				echo "<tr><td>".$article->getArticleName($language)."</td></tr>";
+				echo "<tr><td>".$article->getArticleName($controller->getLanguage())."</td></tr>";
 			}
-			echo "<tr><th>TOTAL</th><th>".$this->getTotal()."</th></tr>";
+			echo "<tr><th>". $controller->getTranslation("cart_total") ."</th><th>".$this->getTotal()."</th></tr>";
 			echo "</table></div>";
 		}
 	}
