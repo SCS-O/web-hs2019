@@ -90,6 +90,23 @@ class Account{
         }
     }
 
+    public function getOrders()
+    {
+        $orders = array();
+        $res = DB::doQuery(sprintf(
+            "SELECT o.* FROM orders o 
+            INNER JOIN account a on a.PK_Account = o.FK_Account AND a.PK_Account = %d",
+            mysqli_real_escape_string(DB::getInstance(), $this->PK_Account)));
+        
+        if ($res) {
+            while ($order = $res->fetch_object("Order")) 
+            {
+                $orders[] = $order;
+            }
+        }
+        return $orders;
+    }
+
     static public function getAccounts() {
         $accounts = array();
         $res = DB::doQuery("SELECT a.* FROM account a");

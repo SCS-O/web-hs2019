@@ -31,6 +31,25 @@ class Controller {
 		return $this->debugMessage;
 	}
 
+	public function isLoggedIn()
+	{
+		//TODO Add Login functionality
+		return true;
+	}
+
+	public function getCurrentUser()
+	{
+		if($this->isLoggedIn() === false)
+		{
+			return null;
+		}
+		else{
+			//TODO Add Login functionality
+			return Account::getAccountById(1);
+		}
+	}
+
+
 	public function isAdmin() {
 		return $this->isAdmin;
 	}
@@ -38,32 +57,67 @@ class Controller {
 	// ACTION - Public 
 	public function home(Request $request) {
 		$this->initializeController($request);
-		$this->title = "Home";
-		$this->data["articles"] = Article::getArticles();
+		$this->title = $this->getTranslation("pagetitle_home");
+		$this->data["articles"] = Article::getArticles(8);
 	}
 
 	public function contact(Request $request) {
 		$this->initializeController($request);
-		$this->title = "Contact";
+		$this->title = $this->getTranslation("pagetitle_contact");
 	}
 
 	// ACTION - Logged - In
+	public function order_overview(Request $request)
+	{
+		//TODO Login necessary
+		$account = $this->getCurrentUser();
+		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_order_overview");
 
+		$orders = array();
+
+		foreach($account->getOrders() as $o)
+		{	
+			$order = new stdClass();
+
+			$order->order_id = $o->getOrderId();
+			$order->orderState = $o->getOrderState();
+			$order->articleCount = count($o->getArticles());
+			$order->totalAmount = 0;
+			
+			foreach($o->getArticles() as $article)
+			{
+				$order->totalAmount += $article->getArticlePrice();
+			}
+
+			$orders[$order->order_id] = $order;
+		}
+
+		$this->data['orders'] = $orders;
+	}
+
+	public function checkout(Request $request)
+	{
+		//TODO Login necessary
+		$account = $this->getCurrentUser();
+		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_checkout");
+		$this->data["articles"] = $this->data["cart"]->getItems();		
+	}
 
 	//ACTION ADMIN
-
 	public function admin_home(Request $request) {
 		//TODO ADD ADMIN SECURITY
 		$this->isAdmin = true;
 		$this->initializeController($request);
-		$this->title = "Admin Home";
+		$this->title = $this->getTranslation("pagetitle_admin_home");
 	}
 
 	public function admin_userlist(Request $request) {
 		//TODO ADD ADMIN SECURITY
 		$this->isAdmin = true;
 		$this->initializeController($request);
-		$this->title = "Admin User List";
+		$this->title = $this->getTranslation("pagetitle_admin_user_list");
 		$this->data["accounts"] = Account::getAccounts();
 	}
 
@@ -71,7 +125,7 @@ class Controller {
 		//TODO ADD ADMIN SECURITY
 		$this->isAdmin = true;
 		$this->initializeController($request);
-		$this->title = "Admin User Edit";
+		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
 		if(!$request->isParameter('accountid') || !Account::isAccount($request->getParameter('accountid')))
 		{
@@ -86,7 +140,7 @@ class Controller {
 		//TODO ADD ADMIN SECURITY
 		$this->isAdmin = true;
 		$this->initializeController($request);
-		$this->title = "Admin User Edit";
+		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
 		if(!$request->isParameter('accountid') || !Account::isAccount($request->getParameter('accountid')))
 		{
@@ -132,6 +186,7 @@ class Controller {
 		//TODO ADD ADMIN SECURITY
 		$this->isAdmin = true;
 		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_admin_meme_overview");
 		$this->title = "Admin meme overview";
 
 		$this->data["articles"] = Article::getArticles();
@@ -244,6 +299,12 @@ class Controller {
 		$listMemes = array();
 		foreach($json['data']['children'] as $post)
 		{
+			//continue, disallow duplicates
+			if(Article::isArticle($post['data']['id']) === true)
+			{
+				continue;
+			}
+
 			//no adult content ;-)
 			if($post['data']['over_18'] === true)
 			{

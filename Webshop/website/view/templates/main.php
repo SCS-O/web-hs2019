@@ -21,16 +21,24 @@
 </head>
 <body>
 	<nav>
-		<a href="index.php">HOME</a> 
-		<a href="index.php?action=contact">Contact</a>
-		<a href="index.php?action=admin_home">Admin</a>
+		<a href="index.php"><?php echo $this->controller->getTranslation("menu_home") ?></a> 
+		<a href="index.php?action=order_overview"><?php echo $this->controller->getTranslation("menu_order_overview") ?></a>
+		<a href="index.php?action=contact"><?php echo $this->controller->getTranslation("menu_contact") ?></a>
+		<a href="index.php?action=admin_home"><?php echo $this->controller->getTranslation("menu_admin") ?></a>
 		<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
 		<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 		<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
  	</nav>
- 	<section class="cart-holder">
-	 	 <?php $cart->render($this->controller); ?>
-  	</section>
+	 <?php
+		if($action != "checkout")
+		{
+		?>
+		<section class="cart-holder">
+		<?php $cart->render($this->controller); ?>
+		</section>
+		<?php
+		}
+	 ?>
 	<?php include $innerTpl; ?>
 </body>
 </html>

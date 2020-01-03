@@ -22,7 +22,7 @@ class View {
 			$$key = $value;
 		}
 		$title = $this->controller->getTitle();
-		$title = "MVC" .($title ? " - ".$title : "");
+		$title = "Meme Shop " .($title ? " - ".$title : "");
 
 		//this is only for visual purposes security is handled by the controllers
 		if($this->controller->isAdmin())

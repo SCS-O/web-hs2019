@@ -7,14 +7,19 @@
 	//$action = isset($_GET['action']) ? $_GET['action'] : 'home';
 	$action = $request->getParameter('action', 'home');
 	
-    //TODO: Auslagern
-    const HOST = "localhost";
-    const USER = "www";
-    const PW = "1234";
-    const DB_NAME = "meme_shop";
+	if (!file_exists('configuration/config.json')) {
+		die("Unable to open configuration.");
+	}
+	//initialize config array
+	$configuration = json_decode(file_get_contents("configuration/config.json"), true);
 
 	// Inizialize model
-	if (!DB::create(HOST, USER, PW, DB_NAME)) {
+	if (!DB::create(
+		$configuration['database']['host'],
+		 $configuration['database']['user'],
+		  $configuration['database']['pw'],
+		   $configuration['database']['db_name'])
+		) {
 		die("Unable to connect to database [".DB::getInstance()->connect_error."]");
 	}
 

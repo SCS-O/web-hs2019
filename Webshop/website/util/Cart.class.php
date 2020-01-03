@@ -43,6 +43,7 @@ class Cart {
 			}
 			echo "<tr><th>". $controller->getTranslation("cart_total") ."</th><th>".$this->getTotal()."</th></tr>";
 			echo "</table></div>";
+			echo ("<a href=\"index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
 		}
 	}
 

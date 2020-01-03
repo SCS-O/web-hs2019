@@ -1,0 +1,8 @@
+{   
+    "database":{
+        "host":"localhost",
+        "user":"www",
+        "pw":"1234",
+        "db_name":"meme_shop"
+    }
+}

@@ -75,9 +75,10 @@ class Article{
         return sprintf("%s, %f", $this->ArticleCreationDate, $this->Price);
     }        
 
-    static public function getArticles() {
+    static public function getArticles($default=50) {
         $Articles = array();
-        $res = DB::doQuery("SELECT a.* FROM article a");
+        
+        $res = DB::doQuery(sprintf("SELECT a.* FROM article a order by a.ArticleCreationDate desc LIMIT %d", $default));
         if ($res) {
             while ($article = $res->fetch_object(get_class())) 
             {
@@ -131,5 +132,17 @@ class Article{
                 mysqli_real_escape_string(DB::getInstance(), $this->Thumbnail_URL)
             ));
         }
+    }
+    
+    //check if reddit id is already in DB 
+    static public function isArticle($ArticleId){
+        $res = DB::doQuery("SELECT a.ArticleId FROM article a WHERE a.ArticleId = '" . mysqli_real_escape_string(DB::getInstance(), $ArticleId) . "';");
+        if ($res) {
+            if ($account = $res->fetch_object(get_class())) 
+            {
+                return TRUE;                    
+            }
+        }
+        return FALSE;
     }
 }
