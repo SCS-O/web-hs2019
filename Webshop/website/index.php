@@ -27,9 +27,21 @@
 
 		$tpl = $tpl ? $tpl : $action;
 
+		//select view template
+		//strpos hacks
+		//https://stackoverflow.com/questions/4366730/how-do-i-check-if-a-string-contains-a-specific-word
+		if(strpos($tpl, "ajax")  !== false)
+		{
+			$view = new AjaxView($controller);
+		}
+		else
+		{
+			$view = new View($controller);
+		}
+
 		// Create view
-		$view = new View($controller);
 		$view->render($tpl);
+
 	} catch (Exception $e) {
 		die("<h2>There was an ERROR!</h2><p>There was an error processing action '$action'!</p><code> -> ".$e->getMessage()."</code>");
 	}

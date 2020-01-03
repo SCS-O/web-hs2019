@@ -16,7 +16,7 @@ class View {
 	public function render($tpl) {
 		$innerTpl = __DIR__ ."/templates/$tpl.php";
 		if(!file_exists($innerTpl)) {
-			throw new Exception("The template '$innerTpl.php' does not exist!");
+			throw new Exception("The template '$innerTpl' does not exist!");
 		}
 		foreach($this->controller->getData() as $key=>$value) {
 			$$key = $value;

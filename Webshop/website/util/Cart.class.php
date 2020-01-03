@@ -37,7 +37,7 @@ class Cart {
 			echo "<div class=\"cart empty\">[Empty Cart]</div>";
 		} else {
 			echo "<div class=\"cart\"><table>";
-			echo "<tr><th>Meme-ID (tranlate cart please)</th></tr>";
+			echo "<tr><th>Meme</th></tr>";
 			foreach($this->articles as $article) {
 				echo "<tr><td>".$article->getArticleName($language)."</td></tr>";
 			}

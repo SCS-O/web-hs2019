@@ -3,7 +3,7 @@ $(function(){
 					e.preventDefault();
 					//AJAX
 					$.ajax({
-						url: '/ajax/cart.php',
+						url: '/index.php?action=ajax_cart',
 						type: 'POST',
 						data: $(this).serialize(),
 						success: function(response) {

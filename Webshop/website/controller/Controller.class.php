@@ -71,7 +71,7 @@ class Controller {
 
 		if(!$request->isParameter('accountid') || !Account::isAccount($request->getParameter('accountid')))
 		{
-			throw new Exception("Bad request");
+			return $this->internalRedirect('admin_userlist', $request);
 		}
 
 		//TODO ADD MESSAGE SUCESS SAVE
@@ -133,6 +133,24 @@ class Controller {
 		$this->title = "Admin meme overview";
 
 		$this->data["articles"] = Article::getArticles();
+	}
+
+	// AJAX CALL
+	public function ajax_cart(Request $request)
+	{
+		$this->initializeController($request);
+		
+		if (!isset($_SESSION['cart'])) {
+			$_SESSION['cart'] = new Cart();
+		}
+		$cart = $_SESSION['cart'];
+	
+		if ($request->isParameter("article-id")){
+			$article = $request->getParameter('article-id');
+			$cart->addItem($article);
+		}
+		
+		$this->data["cart"] = $cart;
 	}
 
     //exception if the action does not exist
