@@ -1,1 +1,1 @@
-<p>boring static content, what did you expect?</p>
+<p><?php echo $this->controller->getTranslation("contact")?></p>

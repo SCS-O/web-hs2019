@@ -22,6 +22,7 @@
 		// Create controller
 		$controller = new Controller();
 
+		//the action returns a new template if there was an internal redirect
 		$tpl = $controller->$action($request);
 
 		$tpl = $tpl ? $tpl : $action;

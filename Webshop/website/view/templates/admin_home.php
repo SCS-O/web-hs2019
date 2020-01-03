@@ -1,1 +1,1 @@
-<p>admin home</p>
+<p><?php echo $this->controller->getTranslation("admin_home_content") ?></p>

@@ -20,27 +20,69 @@ class Account{
         return $this->FirstName;
     }
 
+    public function setFirstName($firstName) {
+       $this->FirstName = $firstName;
+    }
+
     public function getLastName() {
         return $this->LastName;
+    }
+
+    public function setLastName($lastName) {
+       $this->LastName = $lastName;
     }
 
     public function getAddress() {
         return $this->Address;
     }
 
+    public function setAddress($address) {
+       $this->Address = $address;
+    }
+
     public function getCity() {
         return $this->City;
+    }
+
+    public function setCity($city) {
+       $this->City = $city;
     }
 
     public function getEmail() {
         return $this->Email;
     }
 
+    public function setEmail($email) {
+        $this->Email = $email;
+     }
+ 
+     public function getPasswordHash() {
+        return $this->PasswordHash;
+    }
+
+    public function setPasswordHash($passwordHash) {
+        $this->PasswordHash = $passwordHash;
+     }
+ 
     public function __toString(){
         return sprintf("%d) %s, %s, %s, %s", $this->PK_Account, $this->getName(), $this
         ->Address, $this->City, $this->Email);
     }
         
+    public function saveObject()
+    {
+        $res = DB::doQuery(sprintf("UPDATE account
+            SET FirstName = '%s', LastName = '%s', Address = '%s', City = '%s', Email = '%s', PasswordHash = '%s'
+            WHERE PK_Account = %d", 
+                mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
+                mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Address), 
+                mysqli_real_escape_string(DB::getInstance(), $this->City), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Email), 
+                mysqli_real_escape_string(DB::getInstance(), $this->PasswordHash), 
+                mysqli_real_escape_string(DB::getInstance(), $this->PK_Account))
+            );
+    }
 
     static public function getAccounts() {
         $accounts = array();
@@ -55,7 +97,7 @@ class Account{
     }
 
     static public function getAccountById($PK_Account) {
-        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.PK_Account = $PK_Account");
+        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.PK_Account = " . mysqli_real_escape_string(DB::getInstance(), $PK_Account));
         if ($res) {
             if ($account = $res->fetch_object(get_class())) 
             {
@@ -63,5 +105,16 @@ class Account{
             }
         }
         return null;
+    }
+
+    static public function isAccount($PK_Account){
+        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.PK_Account = " . mysqli_real_escape_string(DB::getInstance(), $PK_Account));
+        if ($res) {
+            if ($account = $res->fetch_object(get_class())) 
+            {
+                return TRUE;                    
+            }
+        }
+        return FALSE;
     }
 }

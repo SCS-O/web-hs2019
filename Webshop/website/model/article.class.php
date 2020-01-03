@@ -19,6 +19,9 @@ class Article{
         else if ($lang === "fr-CH"){
             return $this->Article_Name_FR;
         }
+        else if ($lang === "en-US"){
+            return $this->Article_Name_EN;
+        }
         else{
             return $this->Article_Name_EN;
         }
@@ -31,6 +34,9 @@ class Article{
         }
         else if ($lang === "fr-CH"){
             return $this->Article_Description_FR;
+        }
+        else if ($lang === "en-US"){
+            return $this->Article_Description_EN;
         }
         else{
             return $this->Article_Description_EN;

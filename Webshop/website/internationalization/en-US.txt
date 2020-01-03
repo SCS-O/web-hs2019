@@ -1,0 +1,16 @@
+hello=Hello
+contact=This is boring static content
+add_to_cart=Add to Cart
+img_not_found=Image not found
+hottest_memes=Hottest Memes
+menu_home=Home
+menu_admin=Admin
+menu_admin_userlist=User overview
+menu_admin_meme_overview=Meme overview
+admin_home_content=Welcome, dear administrator!
+article_name_de=Article name(German)
+article_name_fr=Article name(French)
+article_name_en=Article name(English)
+name=Name
+button_edit_account=Edit Account
+email=Email
