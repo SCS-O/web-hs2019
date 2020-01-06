@@ -31,9 +31,31 @@ class Controller {
 		return $this->debugMessage;
 	}
 
+	public function login(request $request)
+	{
+		$login = $request->getParameter('login', '');
+		$pw = $request->getParameter('pw', '');
+
+		if (!Account::checkCredentials($login, $pw)) {
+			return;
+		}
+		$this->startSession();
+		//=account::getaccid()
+		$_SESSION['user'] = $login;
+		return 'home';
+	}
+	public function logout(Request $request)
+	{
+		$this->startSession();
+		session_destroy();
+		$_SESSION = array();
+		return 'home';
+	}
 	public function isLoggedIn()
 	{
 		//TODO Add Login functionality
+		$this->startSession();
+		return isset($_SESSION['user']);
 		return true;
 	}
 

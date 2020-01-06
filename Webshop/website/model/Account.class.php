@@ -140,4 +140,9 @@ class Account{
         }
         return FALSE;
     }
+    public static function checkCredentials($login, $pw)
+    {
+        //check if db.email == login and if db.pwhash== pw
+        //return true/false
+    }
 }
