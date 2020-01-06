@@ -88,12 +88,20 @@ class Controller {
 		$this->title = $this->getTranslation("pagetitle_contact");
 	}
 
+	public function clear_cart_and_go_home(Request $request){
+		$this->initializeController($request);
+		$this->data["cart"]->clear();
+
+		header('Location: ' . '/index.php');		
+	}
+
 	// ACTION - Logged - In
 	public function order_overview(Request $request)
 	{
-		//TODO Login necessary
-		$account = $this->getCurrentUser();
 		$this->initializeController($request);
+		$account = $this->getCurrentUser();
+
+		
 		$this->title = $this->getTranslation("pagetitle_order_overview");
 
 		$orders = array();
@@ -120,11 +128,74 @@ class Controller {
 
 	public function checkout(Request $request)
 	{
+		$this->initializeController($request);
 		//TODO Login necessary
 		$account = $this->getCurrentUser();
-		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_checkout");
-		$this->data["articles"] = $this->data["cart"]->getItems();		
+
+		if(count($this->data["cart"]->getItems()) === 0)
+		{
+			return $this->internalRedirect('home', $request);
+		}
+		
+		$totalAmount = 0;
+		foreach($this->data["cart"]->getItems() as $article)
+		{
+			$totalAmount += $article->getArticlePrice();
+		}
+
+
+		$this->data["articles"] = $this->data["cart"]->getItems();	
+		$this->data["total"] = $totalAmount;		
+	}
+
+	public function confirm_checkout(Request $request)
+	{
+		//TODO Login necessary
+		$this->initializeController($request);
+
+		$account = $this->getCurrentUser();
+		
+		//cart has to have at least 1 entry for checkout to be possible
+		if(count($this->data["cart"]->getItems()) === 0)
+		{
+			return $this->internalRedirect('home', $request);
+		}
+
+		$this->data['orderId'] = Order::newOrder($this->data["cart"]->getItems(), $account)->getOrderId();
+
+		$this->data["cart"]->clear();
+
+		return $this->internalRedirect('order_detail', $request);
+	}
+
+	public function order_detail(Request $request)
+	{
+		//TODO Login necessary
+		$this->initializeController($request);
+
+		$account = $this->getCurrentUser();
+
+
+		//order id in request is prioritized before data['orderid']
+		if(!isset($this->data['orderId']) && !$request->isParameter('orderId'))
+		{
+			return $this->internalRedirect('order_overview', $request);
+		}
+		else if($request->isParameter('orderId'))
+		{
+			$this->data['orderId'] = $request->getParameter('orderId');
+		}
+
+		$order = Order::getOrderById($this->data['orderId']);
+
+		if($order->getOrdererAccount() !== $account->getAccountId())
+		{			
+			throw new Exception('Account does not match order');
+		}
+		
+		$this->data['order'] = $order;
+		$this->data['articles'] = $order->getArticles();
 	}
 
 	//ACTION ADMIN

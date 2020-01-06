@@ -14,6 +14,10 @@ class Cart {
 	public function removeItem($articleId) {
 		unset($this->articles[$articleId]);
 	}
+	
+	public function clear() {
+		$this->articles = [];
+	}
 
 	public function getItems() {
 		return $this->articles;
@@ -43,7 +47,7 @@ class Cart {
 			}
 			echo "<tr><th>". $controller->getTranslation("cart_total") ."</th><th>".$this->getTotal()."</th></tr>";
 			echo "</table></div>";
-			echo ("<a href=\"index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
+			echo ("<a href=\"/index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
 		}
 	}
 

@@ -101,7 +101,7 @@ class Article{
     
     public function saveObject()
     {
-        if(isset($this->PK_Account) && $this->PK_Account !== null)
+        if(isset($this->PK_Article) && $this->PK_Article !== null)
         {
             $res = DB::doQuery(sprintf("UPDATE article
                 SET Article_Title = '%s', Article_Permalink = '%s', ArticleId = '%s', ArticleAuthor, ArticleCreationDate = '%s', ArticleSubreddit = '%s', Price = %d, Picture_URL = '%s', Thumbnail_URL = '%s'
