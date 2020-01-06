@@ -40,3 +40,6 @@ article_count=Number of memes
 checkout_page_introduction=Do you want to aquire the following memes for the listed total down below?
 checkout_link=Go to checkout
 pagetitle_checkout=Checkout
+confirm_yes_purchase=Yes, I want to purchase those potentially awesome memes!
+confirm_no_empty_cart=No, I want to clear my cart and come back later.
+order_detail=Order detail
