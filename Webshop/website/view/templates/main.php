@@ -28,7 +28,9 @@
 		<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
 		<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 		<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
- 	</nav>
+	 </nav>
+	 //hier kommt login hin
+	 
 	 <?php
 		if($action != "checkout")
 		{
