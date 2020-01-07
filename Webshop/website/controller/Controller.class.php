@@ -64,7 +64,7 @@ class Controller {
 
 		$acc = Account::getAccountByEmail($login);
 		$this->data['message'] = print_r($acc);
-		if ($acc) {
+		if (is_null($acc)) {
 			$this->data['message'] = "Try Again 1";
 			return  $this->internalRedirect('home',$request);
 		}
