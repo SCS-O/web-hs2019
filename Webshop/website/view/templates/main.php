@@ -22,7 +22,9 @@
 <body>
 	<nav>
 		<a href="index.php"><?php echo $this->controller->getTranslation("menu_home") ?></a> 
-		<a href="index.php?action=order_overview"><?php echo $this->controller->getTranslation("menu_order_overview") ?></a>
+		<?php if($this->controller->isLoggedIn()) { ?> 
+			<a href="index.php?action=order_overview"><?php echo $this->controller->getTranslation("menu_order_overview") ?></a>
+		<?php } ?>		
 		<a href="index.php?action=contact"><?php echo $this->controller->getTranslation("menu_contact") ?></a>
 		<a href="index.php?action=admin_home"><?php echo $this->controller->getTranslation("menu_admin") ?></a>
 		<div class="languages">
