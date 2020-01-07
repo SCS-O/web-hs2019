@@ -31,6 +31,7 @@ class Controller {
 		return $this->debugMessage;
 	}
 
+	/*
 	public function login(request $request)
 	{
 		$login = $request->getParameter('login', '');
@@ -50,12 +51,12 @@ class Controller {
 		session_destroy();
 		$_SESSION = array();
 		return 'home';
-	}
+		}
+	*/
+
 	public function isLoggedIn()
 	{
 		//TODO Add Login functionality
-		$this->startSession();
-		return isset($_SESSION['user']);
 		return true;
 	}
 
@@ -80,7 +81,11 @@ class Controller {
 	public function home(Request $request) {
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_home");
-		$this->data["articles"] = Article::getArticles(8);
+		
+		$this->data['hasMemes'] = (count(Article::getArticles(14)) === 0) ? false : true;
+		
+		$this->data["articles"] = Article::getArticles(14);
+
 	}
 
 	public function contact(Request $request) {

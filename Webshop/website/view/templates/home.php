@@ -1,4 +1,8 @@
 <section class="main-grid-layout">
+  <?php
+    if($hasMemes)
+    {
+  ?>
   <h2><?php echo $this->controller->getTranslation("hottest_memes") ?></h2>
   <?php
     foreach ($articles as $article)
@@ -16,5 +20,11 @@
       </div>
       <?php
     }
+  }
+  else{
+    ?>
+      <p class="memeless"><?php echo $this->controller->getTranslation("memeless_shop") ?></p>
+    <?php
+  }
   ?>
 </section>

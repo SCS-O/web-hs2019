@@ -78,14 +78,15 @@ class Article{
     static public function getArticles($default=50) {
         $Articles = array();
         
-        $res = DB::doQuery(sprintf("SELECT a.* FROM article a order by a.ArticleCreationDate desc LIMIT %d", $default));
+        $res = DB::doQuery(sprintf("SELECT a.* FROM article a order by a.Price desc LIMIT %d", $default));
         if ($res) {
             while ($article = $res->fetch_object(get_class())) 
             {
-                $articles[] = $article;
+                $Articles[] = $article;
             }
         }
-        return $articles;
+
+        return $Articles;
     }
 
     static public function getArticleById($PK_Article) {

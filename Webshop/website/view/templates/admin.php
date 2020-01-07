@@ -25,10 +25,17 @@
 		<a href="index.php?action=admin_home"><?php echo $this->controller->getTranslation("menu_admin") ?></a>
 		<a href="index.php?action=admin_userlist"><?php echo $this->controller->getTranslation("menu_admin_userlist") ?></a>
 		<a href="index.php?action=admin_meme_overview"><?php echo $this->controller->getTranslation("menu_admin_meme_overview") ?></a>
-		<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
-		<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
-		<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
+		<div class="languages">
+			<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
+			<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
+			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
+		</div>
  	</nav>
-	<?php include $innerTpl; ?>
+	<main>
+		<section class="inner">
+			<?php include $innerTpl; ?>
+		</section>
+	</main>
+	<footer><?php echo $this->controller->getTranslation("page_footer") ?></footer>
 </body>
 </html>

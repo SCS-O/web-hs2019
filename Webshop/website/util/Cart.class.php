@@ -45,7 +45,7 @@ class Cart {
 			foreach($this->articles as $article) {
 				echo "<tr><td>".$article->getArticleTitle()."</td></tr>";
 			}
-			echo "<tr><th>". $controller->getTranslation("cart_total") ."</th><th>".$this->getTotal()."</th></tr>";
+			echo "<tr class=\"total\"><td>". $controller->getTranslation("cart_total") . ": " .$this->getTotal() . "</tr>";
 			echo "</table></div>";
 			echo ("<a href=\"/index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
 		}

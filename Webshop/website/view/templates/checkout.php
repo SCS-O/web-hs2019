@@ -20,6 +20,6 @@
 </section>
 
 <section class="checkout_confirm">
-    <a href="index.php?action=confirm_checkout"><?php echo $this->controller->getTranslation("confirm_yes_purchase") ?></a>
+    <a href="index.php?action=confirm_checkout"><?php echo $this->controller->getTranslation("confirm_yes_purchase") ?></a><br />
     <a href="index.php?action=clear_cart_and_go_home"><?php echo $this->controller->getTranslation("confirm_no_empty_cart") ?></a>
 </section>

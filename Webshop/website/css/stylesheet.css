@@ -1,8 +1,144 @@
-table.main-grid-layout{
-    width: 400px;
+/* adoped from the following example: https://www.w3schools.com/css/tryit.asp?filename=trycss_template3 */
+/* colors from https://www.w3schools.com/colors/tryit.asp?filename=trycolors_palettes19 */
+
+/* GENERAL, Fonts etc. */
+*{
+  box-sizing: border-box;
 }
 
+body{
+   font-family: Arial, Helvetica, sans-serif; 
+   margin: 0;
+}
+
+h1, h2, h3, p{
+  color: #000;  
+}
+
+
+/* NAVIGATION  LANGUAGES BAR */
+nav{
+  overflow: hidden; 
+  background-color: #587e76;
+}
+
+nav a{
+  float: left;
+  display: block; 
+  color: #EEE;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav a:hover{
+  background-color: #c1502e;
+  color: #000;
+}
+
+div.languages{
+  float: right;
+}
+
+/* Main  */
+
+main{
+  background-color: #a96e5b;
+}
+
+section.inner{
+  width: 80%;
+  float: left;
+  padding: 20px;
+}
+
+/* CART */
+
+.cart-holder{
+  background: #686256;
+  width: 20%;
+  margin: 0;
+  float: left;
+  padding: 10px;
+  text-align: center;
+}
+
+.cart-holder td{
+  border-bottom: 1px solid black;
+}
+
+.cart-holder th{
+  padding-bottom: 20px;
+
+}
+
+.cart-holder tr.total{
+  font-weight: bold;
+  text-align: left;
+}
+
+.cart-holder a, a:visited{
+  font-weight: bold;
+  float: left;
+  padding-top: 10px;
+  color: #000;
+}
+
+main:after{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.checkout_confirm{
+  
+  text-align: center;
+}
+
+/* content */
+p.memeless{
+  font-size: 40px;
+  font-weight: bolder;
+  animation: blinker 1s linear infinite;
+  color: red;
+}
+
+/* https://stackoverflow.com/questions/16344354/how-to-make-blinking-flashing-text-with-css-3 */
+@keyframes blinker {
+  50% {
+    opacity: 20%;
+  }
+}
+
+.checkout_confirm a
+{
+  font-size: 20px;
+  line-height: 30px;  
+}
+
+table a, a:visited{
+  font-weight: bold;
+  float: left;
+  padding-top: 10px;
+  color: #000;
+}
+
+
+
+footer{
+  background: #686256;
+  padding: 10px;
+}
+
+.article-container{
+  width: 190px;
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+}
+
+
 img.thumbnail{    
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
 }
