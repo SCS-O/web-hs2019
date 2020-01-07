@@ -31,17 +31,49 @@ class Controller {
 		return $this->debugMessage;
 	}
 
+	public function register(request $request)
+	{
+		$firstName = $request->getParameter('firstName', '');
+		$lastName = $request->getParameter('lastName', '');
+		$address = $request->getParameter('address','');
+		$city = $request->getParameter('city','');
+		$email = $request->getParameter('email','');
+		$passwordHash = $request->getParameter('passwordHash','');
+
+		$acc = Account::getAccountByEmail($email);
+		if (!is_null($acc)) {
+			$this->data['message'] = "Already in use";
+			return;
+		}
+		$acc = new Account()
+		$acc->setFirstName($firstName);
+		$acc->setLastName($lastName);
+		$acc->setAddress($address);
+		$acc->setCity($city);
+		$acc->setEmail($email);
+		$acc->setPasswordHash($passwordHash);
+
+		$acc->saveObject();
+
+
+	}
 	public function login(request $request)
 	{
 		$login = $request->getParameter('login', '');
 		$pw = $request->getParameter('pw', '');
 
-		if (!Account::checkCredentials($login, $pw)) {
+		$acc = Account::getAccountByEmail($login);
+		if (is_null($acc)) {
+			$this->data['message'] = "Try Again";
+			return;
+		}
+
+		if (!$acc->checkCredentials($login, $pw)){
+			$this->data['message'] = "Try Again";
 			return;
 		}
 		$this->startSession();
-		//=account::getaccid()
-		$_SESSION['user'] = $login;
+		$_SESSION['user'] = getAccountId();
 		return 'home';
 	}
 	public function logout(Request $request)
@@ -56,7 +88,6 @@ class Controller {
 		//TODO Add Login functionality
 		$this->startSession();
 		return isset($_SESSION['user']);
-		return true;
 	}
 
 	public function getCurrentUser()
@@ -66,8 +97,7 @@ class Controller {
 			return null;
 		}
 		else{
-			//TODO Add Login functionality
-			return Account::getAccountById(1);
+			return Account::getAccountById($_SESSION['user']);
 		}
 	}
 
