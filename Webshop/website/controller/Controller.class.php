@@ -65,16 +65,16 @@ class Controller {
 		$acc = Account::getAccountByEmail($login);
 		if (is_null($acc)) {
 			$this->data['message'] = "Try Again";
-			return  'home';
+			return  $this->internalRedirect('home',$request);
 		}
 
 		if (!$acc->checkCredentials($login, $pw)){
 			$this->data['message'] = "Try Again";
-			return 'home';
+			return $this->internalRedirect('home',$request);
 		}
 		$this->startSession();
 		$_SESSION['user'] = getAccountId();
-		return 'home';
+		return $this->internalRedirect('home',$request);
 	}
 	public function logout(Request $request)
 	{
