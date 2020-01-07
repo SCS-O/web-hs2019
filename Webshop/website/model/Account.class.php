@@ -140,11 +140,11 @@ class Account{
 
     static public function getAccountByEmail($email)
     {
-        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.Email = " . mysqli_real_escape_string(DB::getInstance(), $email).'"');
+        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.Email like '" . mysqli_real_escape_string(DB::getInstance(), $email) . "'");
         if ($res) {
             if ($account = $res->fetch_object(get_class())) 
             {
-                return $account;                    
+                return $account;
             }
         }
         return null;
