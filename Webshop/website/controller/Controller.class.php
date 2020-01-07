@@ -45,7 +45,7 @@ class Controller {
 			$this->data['message'] = "Already in use";
 			return;
 		}
-		$acc = new Account()
+		$acc = new Account();
 		$acc->setFirstName($firstName);
 		$acc->setLastName($lastName);
 		$acc->setAddress($address);
@@ -82,8 +82,7 @@ class Controller {
 		session_destroy();
 		$_SESSION = array();
 		return 'home';
-		}
-	*/
+	}
 
 	public function isLoggedIn()
 	{
