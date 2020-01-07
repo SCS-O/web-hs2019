@@ -86,7 +86,15 @@ class Account{
                 );
         }
         else{
-            //TODO ADD INSERT
+            $res = DB::doQuery(sprintf("INSERT INTO account(`FirstName`, `LastName`, `Address`, `City`, `Email`, 'PasswordHash')
+            VALUES('%s', '%s', '%s', '%s', '%s', '%s');", 
+                mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
+                mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Address), 
+                mysqli_real_escape_string(DB::getInstance(), $this->City), 
+                mysqli_real_escape_string(DB::getInstance(), $this->Email), 
+                mysqli_real_escape_string(DB::getInstance(), $this->PasswordHas)
+            ));
         }
     }
 
@@ -130,6 +138,18 @@ class Account{
         return null;
     }
 
+    static public function getAccountByEmail($email)
+    {
+        $res = DB::doQuery("SELECT a.* FROM account a WHERE a.Email = " . mysqli_real_escape_string(DB::getInstance(), $email));
+        if ($res) {
+            if ($account = $res->fetch_object(get_class())) 
+            {
+                return $account;                    
+            }
+        }
+        return null;
+    }
+
     static public function isAccount($PK_Account){
         $res = DB::doQuery("SELECT a.* FROM account a WHERE a.PK_Account = " . mysqli_real_escape_string(DB::getInstance(), $PK_Account));
         if ($res) {
@@ -140,9 +160,15 @@ class Account{
         }
         return FALSE;
     }
-    public static function checkCredentials($login, $pw)
+
+    
+    public function checkCredentials($login, $pw)
     {
-        //check if db.email == login and if db.pwhash== pw
-        //return true/false
+        if ($login == $Email && $pw == $PasswordHash){
+            return TRUE;
+        }
+        else{
+            return false;
+        }
     }
 }

@@ -30,7 +30,15 @@
 			<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
 		</div>
-	 </nav>	 	
+	 </nav>
+	 <?php if($this->controller->isLoggedIn()) {
+		 echo " | <p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
+		 }
+		 else{
+			//  TODO form with email, pw and submitbutton
+		 }?>
+	 <!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?> -->
+	 	
 	<main>
 		<section class="inner">
 			<?php include $innerTpl; ?>
