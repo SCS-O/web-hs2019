@@ -30,9 +30,7 @@
 			<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
 		</div>
-	 </nav>
-	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
-	 <?php if($this->controller->isLoggedIn()) {
+		<?php if($this->controller->isLoggedIn()) {
 		 echo " | <p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
 		 }
 		 else{
@@ -44,8 +42,12 @@
 			<label>Password</label>
 			<input type='password' name='pw'>
 			<input type='submit' value='Login'>
+			<a href='index.php?action=registration'>";?> <?php echo $this->controller->getTranslation('registration') ?> <?php echo "</a> 
 		</form>
 	 </div>";}?>
+	 </nav>
+	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
+	 
 	 
 	 <!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?> -->
 	 	

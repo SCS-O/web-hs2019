@@ -43,7 +43,7 @@ class Controller {
 		$acc = Account::getAccountByEmail($email);
 		if (!is_null($acc)) {
 			$this->data['message'] = "Already in use";
-			return;
+			return $this->internalRedirect('home',$request);
 		}
 		$acc = new Account();
 		$acc->setFirstName($firstName);
@@ -54,6 +54,7 @@ class Controller {
 		$acc->setPasswordHash($passwordHash);
 
 		$acc->saveObject();
+		return $this->internalRedirect('home',$request);
 
 
 	}
@@ -118,6 +119,11 @@ class Controller {
 		
 		$this->data["articles"] = Article::getArticles(14);
 
+	}
+
+	public function registration(Request $request) {
+		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_registration");
 	}
 
 	public function contact(Request $request) {
