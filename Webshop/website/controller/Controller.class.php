@@ -63,17 +63,19 @@ class Controller {
 		$pw = $request->getParameter('pw', '');
 
 		$acc = Account::getAccountByEmail($login);
-		if (is_null($acc)) {
-			$this->data['message'] = "Try Again";
+		$this->data['message'] = print_r($acc);
+		if ($acc) {
+			$this->data['message'] = "Try Again 1";
 			return  $this->internalRedirect('home',$request);
 		}
 
 		if (!$acc->checkCredentials($login, $pw)){
-			$this->data['message'] = "Try Again";
+			$this->data['message'] = "Try Again 2";
 			return $this->internalRedirect('home',$request);
 		}
 		$this->startSession();
-		$_SESSION['user'] = getAccountId();
+		$_SESSION['user'] = $acc->getAccountId();
+		$this->data['message'] = "logged in";
 		return $this->internalRedirect('home',$request);
 	}
 	public function logout(Request $request)
@@ -81,7 +83,7 @@ class Controller {
 		$this->startSession();
 		session_destroy();
 		$_SESSION = array();
-		return 'home';
+		return $this->internalRedirect('home',$request);
 	}
 
 	public function isLoggedIn()

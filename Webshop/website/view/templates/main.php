@@ -31,6 +31,7 @@
 			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
 		</div>
 	 </nav>
+	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
 	 <?php if($this->controller->isLoggedIn()) {
 		 echo " | <p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
 		 }
