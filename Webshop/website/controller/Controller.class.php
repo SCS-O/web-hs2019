@@ -65,12 +65,12 @@ class Controller {
 		$acc = Account::getAccountByEmail($login);
 		if (is_null($acc)) {
 			$this->data['message'] = "Try Again";
-			return;
+			return  'home';
 		}
 
 		if (!$acc->checkCredentials($login, $pw)){
 			$this->data['message'] = "Try Again";
-			return;
+			return 'home';
 		}
 		$this->startSession();
 		$_SESSION['user'] = getAccountId();

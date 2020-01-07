@@ -35,8 +35,17 @@
 		 echo " | <p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
 		 }
 		 else{
-			//  TODO form with email, pw and submitbutton
-		 }?>
+			 echo"
+	<div class='login'>
+		<form action='index.php?action=login' method='post'>
+			<label>E-Mail</label>
+			<input type='text' name='login'>
+			<label>Password</label>
+			<input type='password' name='pw'>
+			<input type='submit' value='Login'>
+		</form>
+	 </div>";}?>
+	 
 	 <!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?> -->
 	 	
 	<main>
