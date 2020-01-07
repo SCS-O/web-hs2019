@@ -47,3 +47,4 @@ confirm_no_empty_cart=No, I want to clear my cart and come back later.
 order_detail=Order detail
 page_footer=Webshop developed by Simon Sterchi and Marc Trittibach
 memeless_shop=The meme-shop is memeless!<br />Consider calling the admins, so they can add awesome memes. 
+login_first=For completing the order, please login

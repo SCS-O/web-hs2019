@@ -47,7 +47,14 @@ class Cart {
 			}
 			echo "<tr class=\"total\"><td>". $controller->getTranslation("cart_total") . ": " .$this->getTotal() . "</tr>";
 			echo "</table></div>";
-			echo ("<a href=\"/index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
+			if($controller->isLoggedIn())
+			{
+				echo ("<a href=\"/index.php?action=checkout\">" . $controller->getTranslation("checkout_link") . "</a>");
+			}
+			else{
+				echo "<p>". $controller->getTranslation("login_first") . "</p>";
+			}
+			
 		}
 	}
 
