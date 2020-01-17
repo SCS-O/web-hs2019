@@ -93,8 +93,9 @@ class Account{
                 mysqli_real_escape_string(DB::getInstance(), $this->Address), 
                 mysqli_real_escape_string(DB::getInstance(), $this->City), 
                 mysqli_real_escape_string(DB::getInstance(), $this->Email), 
-                mysqli_real_escape_string(DB::getInstance(), $this->PasswordHas)
+                mysqli_real_escape_string(DB::getInstance(), $this->PasswordHash)
             ));
+            return $res;
         }
     }
 

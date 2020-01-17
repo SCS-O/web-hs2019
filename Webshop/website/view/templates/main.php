@@ -20,6 +20,7 @@
 	?>
 </head>
 <body>
+	
 	<nav>
 		<a href="index.php"><?php echo $this->controller->getTranslation("menu_home") ?></a> 
 		<?php if($this->controller->isLoggedIn()) { ?> 
@@ -34,6 +35,7 @@
 		</div>
 		<?php if($this->controller->isLoggedIn()) {
 		 echo " | <p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
+		 echo " | <a href=\"index.php?action=logout\">Logout</a>"; 
 		 }
 		 else{
 			 echo"
@@ -51,7 +53,7 @@
 	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
 	 
 	 
-	 <!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?> -->
+	<!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?>  -->
 	 	
 	<main>
 		<section class="inner">
@@ -67,7 +69,7 @@
 			<?php
 			}
 		?>
-	</main>
+	</main> 
 	<footer><?php echo $this->controller->getTranslation("page_footer") ?></footer>
 </body>
 </html>

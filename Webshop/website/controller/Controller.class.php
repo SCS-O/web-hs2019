@@ -52,8 +52,8 @@ class Controller {
 		$acc->setCity($city);
 		$acc->setEmail($email);
 		$acc->setPasswordHash($passwordHash);
-
 		$acc->saveObject();
+
 		return $this->internalRedirect('home',$request);
 
 
@@ -118,6 +118,10 @@ class Controller {
 		
 		$this->data["articles"] = Article::getArticles(14);
 
+	}
+	public function forbidden(Request $request){
+		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_forbidden");
 	}
 
 	public function registration(Request $request) {
