@@ -47,3 +47,4 @@ confirm_no_empty_cart=Nein, Ich will meinen Warenkorb leeren und später zurück
 order_detail=Bestellungsdetails
 page_footer=Webshop wurde entwickelt von Simon und Marc
 memeless_shop=Der Meme-Shop hat keine Memes mehr!<br />Gib den Admins Bescheid um mehr tolle Memes zu sehen.
+logged_in=Sie sind jetzt eingeloggt.

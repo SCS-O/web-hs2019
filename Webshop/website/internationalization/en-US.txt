@@ -48,3 +48,4 @@ order_detail=Order detail
 page_footer=Webshop developed by Simon Sterchi and Marc Trittibach
 memeless_shop=The meme-shop is memeless!<br />Consider calling the admins, so they can add awesome memes. 
 login_first=For completing the order, please login
+logged_in=You are now logged in.

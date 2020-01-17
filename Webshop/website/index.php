@@ -1,7 +1,7 @@
 <?php
 	// F R O N T   C O N T R O L L E R
 
-	require_once 'util/autoloader.php';
+	require_once './util/autoloader.php';
 
 	$request = new Request();
 	//$action = isset($_GET['action']) ? $_GET['action'] : 'home';

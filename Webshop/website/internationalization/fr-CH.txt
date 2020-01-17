@@ -1,2 +1,3 @@
 hello=Bonjour
 contact=C'est quelque chose
+yes=non
