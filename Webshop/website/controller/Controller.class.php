@@ -33,6 +33,25 @@ class Controller {
 
 	public function register(request $request)
 	{
+		//Sanitize
+		$firstName = filter_var($request->getParameter('firstName', ''), FILTER_SANITIZE_STRING);
+		$lastName = filter_var($request->getParameter('lastName', ''), FILTER_SANITIZE_STRING);
+		$address = filter_var($request->getParameter('address', ''), FILTER_SANITIZE_STRING);
+		$city = filter_var($request->getParameter('city', ''), FILTER_SANITIZE_STRING);
+		$email = filter_var($request->getParameter('email', ''), FILTER_SANITIZE_EMAIL);
+		$passwordHash = filter_var($request->getParameter('passwordHash', ''), FILTER_SANITIZE_STRING);
+
+		//Validate
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$this->data['message'] = "Use a valid email please";
+			return $this->internalRedirect('registration',$request);
+		}
+
+		if (!filter_var($passwordHash, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/.{5,149}/")))) {
+			$this->data['message'] = "Put at least 5, at max 149 characters. ";
+			return $this->internalRedirect('registration',$request);
+		}
+
 		$firstName = $request->getParameter('firstName', '');
 		$lastName = $request->getParameter('lastName', '');
 		$address = $request->getParameter('address','');
@@ -59,9 +78,15 @@ class Controller {
 
 	}
 	public function login(request $request)
-	{
-		$login = $request->getParameter('login', '');
-		$pw = $request->getParameter('pw', '');
+	{	
+		//Sanitize
+		$login = filter_var($request->getParameter('login', ''), FILTER_SANITIZE_EMAIL);
+		$pw = filter_var($request->getParameter('pw', ''), FILTER_SANITIZE_STRING);
+		//Validate
+		if (!filter_var($login, FILTER_VALIDATE_EMAIL)){
+			$this->data['message'] = "Invalid credentials";
+			return  $this->internalRedirect('home',$request);
+		}
 
 		$acc = Account::getAccountByEmail($login);
 		if (is_null($acc)) {
@@ -88,7 +113,6 @@ class Controller {
 
 	public function isLoggedIn()
 	{
-		//TODO Add Login functionality
 		$this->startSession();
 		return isset($_SESSION['user']);
 	}

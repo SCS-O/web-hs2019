@@ -86,7 +86,7 @@ class Account{
                 );
         }
         else{
-            $res = DB::doQuery(sprintf("INSERT INTO account(`FirstName`, `LastName`, `Address`, `City`, `Email`, 'PasswordHash')
+            $res = DB::doQuery(sprintf("INSERT INTO account(`FirstName`, `LastName`, `Address`, `City`, `Email`, `PasswordHash`)
             VALUES('%s', '%s', '%s', '%s', '%s', '%s');", 
                 mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
                 mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
@@ -162,7 +162,6 @@ class Account{
         return FALSE;
     }
 
-    
     public function checkCredentials($login, $pw)
     {
         if ($login == $this->Email && $pw == $this->PasswordHash){
