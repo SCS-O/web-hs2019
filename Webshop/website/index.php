@@ -29,7 +29,7 @@
 
 		//the action returns a new template if there was an internal redirect
 		$tpl = $controller->$action($request);
-
+		
 		$tpl = $tpl ? $tpl : $action;
 
 		//select view template

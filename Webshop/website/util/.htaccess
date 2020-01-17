@@ -1,1 +1,2 @@
-deny from all
+Require all denied
+ErrorDocument 403 /index.php?action=forbidden

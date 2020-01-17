@@ -9,7 +9,9 @@ class Controller {
 	private $isAdmin = false;
 	private $translations = array();
 	private $debugMessage = "";
-
+	public function setDebugMessage($msg){
+		$this->debugMessage = $msg;
+	}
 	//Properties
 	public function &getData() {
 		return $this->data;
@@ -33,12 +35,24 @@ class Controller {
 
 	public function register(request $request)
 	{
-		$firstName = $request->getParameter('firstName', '');
-		$lastName = $request->getParameter('lastName', '');
-		$address = $request->getParameter('address','');
-		$city = $request->getParameter('city','');
-		$email = $request->getParameter('email','');
-		$passwordHash = $request->getParameter('passwordHash','');
+		//Sanitize
+		$firstName = filter_var($request->getParameter('firstName', ''), FILTER_SANITIZE_STRING);
+		$lastName = filter_var($request->getParameter('lastName', ''), FILTER_SANITIZE_STRING);
+		$address = filter_var($request->getParameter('address', ''), FILTER_SANITIZE_STRING);
+		$city = filter_var($request->getParameter('city', ''), FILTER_SANITIZE_STRING);
+		$email = filter_var($request->getParameter('email', ''), FILTER_SANITIZE_EMAIL);
+		$passwordHash = filter_var($request->getParameter('passwordHash', ''), FILTER_SANITIZE_STRING);
+
+		//Validate
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$this->data['message'] = "Use a valid email please";
+			return $this->internalRedirect('registration',$request);
+		}
+
+		if (!filter_var($passwordHash, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/.{5,149}/")))) {
+			$this->data['message'] = "Put at least 5, at max 149 characters. ";
+			return $this->internalRedirect('registration',$request);
+		}
 
 		$acc = Account::getAccountByEmail($email);
 		if (!is_null($acc)) {
@@ -52,16 +66,22 @@ class Controller {
 		$acc->setCity($city);
 		$acc->setEmail($email);
 		$acc->setPasswordHash($passwordHash);
-
 		$acc->saveObject();
+
 		return $this->internalRedirect('home',$request);
 
 
 	}
 	public function login(request $request)
-	{
-		$login = $request->getParameter('login', '');
-		$pw = $request->getParameter('pw', '');
+	{	
+		//Sanitize
+		$login = filter_var($request->getParameter('login', ''), FILTER_SANITIZE_EMAIL);
+		$pw = filter_var($request->getParameter('pw', ''), FILTER_SANITIZE_STRING);
+		//Validate
+		if (!filter_var($login, FILTER_VALIDATE_EMAIL)){
+			$this->data['message'] = "Invalid credentials";
+			return  $this->internalRedirect('home',$request);
+		}
 
 		$acc = Account::getAccountByEmail($login);
 		if (is_null($acc)) {
@@ -73,9 +93,10 @@ class Controller {
 			$this->data['message'] = "Try Again 2";
 			return $this->internalRedirect('home',$request);
 		}
+
 		$this->startSession();
 		$_SESSION['user'] = $acc->getAccountId();
-		$this->data['message'] = "logged in";
+		
 		return $this->internalRedirect('home',$request);
 	}
 	public function logout(Request $request)
@@ -88,7 +109,6 @@ class Controller {
 
 	public function isLoggedIn()
 	{
-		//TODO Add Login functionality
 		$this->startSession();
 		return isset($_SESSION['user']);
 	}
@@ -106,7 +126,14 @@ class Controller {
 
 
 	public function isAdmin() {
-		return $this->isAdmin;
+		if(!$this->isLoggedIn()){
+			return false;
+		}
+		$currAcc = $this->getCurrentUser();
+		if($currAcc->getAccountType()!== 'admin'){
+			return false;
+		}
+		return true;
 	}
 
 	// ACTION - Public 
@@ -118,6 +145,10 @@ class Controller {
 		
 		$this->data["articles"] = Article::getArticles(14);
 
+	}
+	public function forbidden(Request $request){
+		$this->initializeController($request);
+		$this->title = $this->getTranslation("pagetitle_forbidden");
 	}
 
 	public function registration(Request $request) {
@@ -171,7 +202,6 @@ class Controller {
 	public function checkout(Request $request)
 	{
 		$this->initializeController($request);
-		//TODO Login necessary
 		$account = $this->getCurrentUser();
 		$this->title = $this->getTranslation("pagetitle_checkout");
 
@@ -193,7 +223,6 @@ class Controller {
 
 	public function confirm_checkout(Request $request)
 	{
-		//TODO Login necessary
 		$this->initializeController($request);
 
 		$account = $this->getCurrentUser();
@@ -213,7 +242,6 @@ class Controller {
 
 	public function order_detail(Request $request)
 	{
-		//TODO Login necessary
 		$this->initializeController($request);
 
 		$account = $this->getCurrentUser();
@@ -242,23 +270,26 @@ class Controller {
 
 	//ACTION ADMIN
 	public function admin_home(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_home");
 	}
 
 	public function admin_userlist(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_list");
 		$this->data["accounts"] = Account::getAccounts();
 	}
 
 	public function admin_useredit(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
@@ -272,8 +303,9 @@ class Controller {
 	}
 
 	function admin_usersave(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
@@ -318,8 +350,9 @@ class Controller {
 	}
 
 	public function admin_meme_overview(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_meme_overview");
 		$this->title = "Admin meme overview";
@@ -328,8 +361,9 @@ class Controller {
 	}
 
 	public function addMemes(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin()){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 
 		if(!$request->isParameter("subreddit")){

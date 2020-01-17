@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="css/stylesheet.css" />
 	<link rel="shortcut icon" type="image/png" href="images/favicon-16x16.png"/>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>  
+	<script type="text/javascript" src="js/main.js"></script>
 	<?php
 		if($this->controller->getDebugMessage() !== "")
 		{
@@ -26,14 +26,14 @@
 			<a href="index.php?action=order_overview"><?php echo $this->controller->getTranslation("menu_order_overview") ?></a>
 		<?php } ?>		
 		<a href="index.php?action=contact"><?php echo $this->controller->getTranslation("menu_contact") ?></a>
-		<a href="index.php?action=admin_home"><?php echo $this->controller->getTranslation("menu_admin") ?></a>
+
 		<div class="languages">
 			<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
 			<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
 		</div>
 		<?php if($this->controller->isLoggedIn()) {
-		 echo " | <p> " . $this->controller->getTranslation('logged_in') . "</p> <a href=\"index.php?action=logout\">Logout</a>"; 
+		 echo "<p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; 
 		 }
 		 else{
 			 echo"
@@ -50,9 +50,8 @@
 		</form>
 	 </div>";}?>
 	 </nav>
-	 
-	 <!-- <?php if(true) echo " | <a href=\"index.php?action=logout\">Logout</a>"; ?> -->
-	 	
+	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
+	 	 	
 	<main>
 		<section class="inner">
 			<?php include $innerTpl; ?>
@@ -67,7 +66,7 @@
 			<?php
 			}
 		?>
-	</main>
+	</main> 
 	<footer><?php echo $this->controller->getTranslation("page_footer") ?></footer>
 </body>
 </html>
