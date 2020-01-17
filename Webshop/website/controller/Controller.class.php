@@ -96,10 +96,12 @@ class Controller {
 
 		$this->startSession();
 		$_SESSION['user'] = $acc->getAccountId();
-		if($acc->getAccountType()==='admin'){
+		
+		if($acc->getAccountType() =='admin'){
 			$this->isAdmin = true;
-			$this->data['message'] = "is admin";
+			$this->data['message']=print_r($this->isAdmin);
 		}
+		
 		return $this->internalRedirect('home',$request);
 	}
 	public function logout(Request $request)
@@ -129,7 +131,10 @@ class Controller {
 
 
 	public function isAdmin() {
-		if(isset($_SESSION['user'])){
+		// if(isset($_SESSION['user'])){
+			if (!isset($_SESSION['user'])){
+				return false;
+			}
 			$acc = Account::getAccountById($_SESSION['user']);
 			if ($acc->getAccountType() === 'admin'){
 				return true;
@@ -137,7 +142,10 @@ class Controller {
 			else{
 				return false;
 			}
-		}
+		// }
+		// else{
+		// 	return false;
+		// }
 	}
 
 	// ACTION - Public 
@@ -206,7 +214,6 @@ class Controller {
 	public function checkout(Request $request)
 	{
 		$this->initializeController($request);
-		//TODO Login necessary
 		$account = $this->getCurrentUser();
 		$this->title = $this->getTranslation("pagetitle_checkout");
 
@@ -228,7 +235,6 @@ class Controller {
 
 	public function confirm_checkout(Request $request)
 	{
-		//TODO Login necessary
 		$this->initializeController($request);
 
 		$account = $this->getCurrentUser();
@@ -248,7 +254,6 @@ class Controller {
 
 	public function order_detail(Request $request)
 	{
-		//TODO Login necessary
 		$this->initializeController($request);
 
 		$account = $this->getCurrentUser();
@@ -277,7 +282,7 @@ class Controller {
 
 	//ACTION ADMIN
 	public function admin_home(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);
@@ -285,7 +290,7 @@ class Controller {
 	}
 
 	public function admin_userlist(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);
@@ -294,7 +299,7 @@ class Controller {
 	}
 
 	public function admin_useredit(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);
@@ -310,7 +315,7 @@ class Controller {
 	}
 
 	function admin_usersave(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);
@@ -357,7 +362,7 @@ class Controller {
 	}
 
 	public function admin_meme_overview(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);
@@ -368,7 +373,7 @@ class Controller {
 	}
 
 	public function addMemes(Request $request) {
-		if(!$this->isAdmin){
+		if(!$this->isAdmin()){
 			return $this->internalRedirect('forbidden',$request);
 		}
 		$this->initializeController($request);

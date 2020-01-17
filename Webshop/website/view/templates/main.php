@@ -6,8 +6,7 @@
 	<link rel="stylesheet" href="css/stylesheet.css" />
 	<link rel="shortcut icon" type="image/png" href="images/favicon-16x16.png"/>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>  
-
+	<script type="text/javascript" src="js/main.js"></script>
 	<?php
 		if($this->controller->getDebugMessage() !== "")
 		{
