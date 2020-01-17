@@ -9,7 +9,9 @@ class Controller {
 	private $isAdmin = false;
 	private $translations = array();
 	private $debugMessage = "";
-
+	public function setDebugMessage($msg){
+		$this->debugMessage = $msg;
+	}
 	//Properties
 	public function &getData() {
 		return $this->data;
@@ -92,15 +94,8 @@ class Controller {
 			return $this->internalRedirect('home',$request);
 		}
 
-		 
-
 		$this->startSession();
 		$_SESSION['user'] = $acc->getAccountId();
-		
-		if($acc->getAccountType() =='admin'){
-			$this->isAdmin = true;
-			$this->data['message']=print_r($this->isAdmin);
-		}
 		
 		return $this->internalRedirect('home',$request);
 	}
@@ -131,21 +126,14 @@ class Controller {
 
 
 	public function isAdmin() {
-		// if(isset($_SESSION['user'])){
-			if (!isset($_SESSION['user'])){
-				return false;
-			}
-			$acc = Account::getAccountById($_SESSION['user']);
-			if ($acc->getAccountType() === 'admin'){
-				return true;
-			} 
-			else{
-				return false;
-			}
-		// }
-		// else{
-		// 	return false;
-		// }
+		if(!$this->isLoggedIn()){
+			return false;
+		}
+		$currAcc = $this->getCurrentUser();
+		if($currAcc->getAccountType()!== 'admin'){
+			return false;
+		}
+		return true;
 	}
 
 	// ACTION - Public 

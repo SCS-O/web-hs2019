@@ -26,9 +26,6 @@
 			<a href="index.php?action=order_overview"><?php echo $this->controller->getTranslation("menu_order_overview") ?></a>
 		<?php } ?>		
 		<a href="index.php?action=contact"><?php echo $this->controller->getTranslation("menu_contact") ?></a>
-		<?php if($this->controller->isAdmin()){
-			echo "<a href='index.php?action=admin_home'>$this->controller->getTranslation('menu_admin')</a>";
-		}?>
 
 		<div class="languages">
 			<a href="index.php?language=de-CH&action=<?php echo $action ?>">De</a>
