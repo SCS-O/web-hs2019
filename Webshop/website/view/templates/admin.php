@@ -30,7 +30,9 @@
 			<a href="index.php?language=fr-CH&action=<?php echo $action ?>">Fr</a>
 			<a href="index.php?language=en-US&action=<?php echo $action ?>">En</a>
 		</div>
+		<?php echo "<p>You are logged in! </p> <a href=\"index.php?action=logout\">Logout</a>"; ?>
  	</nav>
+	 <?php echo isset($message) ? "<h5>".$message."</h5>" : ""; ?>
 	<main>
 		<section class="inner">
 			<?php include $innerTpl; ?>

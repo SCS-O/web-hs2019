@@ -6,6 +6,7 @@ class Account{
     private $Address;
     private $City;
     private $Email;
+    private $AccountType;
     private $PasswordHash;
 
     public function getName() {
@@ -55,6 +56,10 @@ class Account{
     public function setEmail($email) {
         $this->Email = $email;
      }
+
+    public function getAccountType() {
+        return $this->AccountType;
+    }
  
      public function getPasswordHash() {
         return $this->PasswordHash;
@@ -86,8 +91,8 @@ class Account{
                 );
         }
         else{
-            $res = DB::doQuery(sprintf("INSERT INTO account(`FirstName`, `LastName`, `Address`, `City`, `Email`, `PasswordHash`)
-            VALUES('%s', '%s', '%s', '%s', '%s', '%s');", 
+            $res = DB::doQuery(sprintf("INSERT INTO account(`FirstName`, `LastName`, `Address`, `City`, `Email`, `AccountType`, `PasswordHash`)
+            VALUES('%s', '%s', '%s', '%s', '%s', 'user', '%s');", 
                 mysqli_real_escape_string(DB::getInstance(), $this->FirstName), 
                 mysqli_real_escape_string(DB::getInstance(), $this->LastName), 
                 mysqli_real_escape_string(DB::getInstance(), $this->Address), 

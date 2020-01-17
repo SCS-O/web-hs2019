@@ -52,13 +52,6 @@ class Controller {
 			return $this->internalRedirect('registration',$request);
 		}
 
-		$firstName = $request->getParameter('firstName', '');
-		$lastName = $request->getParameter('lastName', '');
-		$address = $request->getParameter('address','');
-		$city = $request->getParameter('city','');
-		$email = $request->getParameter('email','');
-		$passwordHash = $request->getParameter('passwordHash','');
-
 		$acc = Account::getAccountByEmail($email);
 		if (!is_null($acc)) {
 			$this->data['message'] = "Already in use";
@@ -98,9 +91,15 @@ class Controller {
 			$this->data['message'] = "Try Again 2";
 			return $this->internalRedirect('home',$request);
 		}
+
+		 
+
 		$this->startSession();
 		$_SESSION['user'] = $acc->getAccountId();
-		$this->data['message'] = "logged in";
+		if($acc->getAccountType()==='admin'){
+			$this->isAdmin = true;
+			$this->data['message'] = "is admin";
+		}
 		return $this->internalRedirect('home',$request);
 	}
 	public function logout(Request $request)
@@ -130,7 +129,15 @@ class Controller {
 
 
 	public function isAdmin() {
-		return $this->isAdmin;
+		if(isset($_SESSION['user'])){
+			$acc = Account::getAccountById($_SESSION['user']);
+			if ($acc->getAccountType() === 'admin'){
+				return true;
+			} 
+			else{
+				return false;
+			}
+		}
 	}
 
 	// ACTION - Public 
@@ -270,23 +277,26 @@ class Controller {
 
 	//ACTION ADMIN
 	public function admin_home(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_home");
 	}
 
 	public function admin_userlist(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_list");
 		$this->data["accounts"] = Account::getAccounts();
 	}
 
 	public function admin_useredit(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
@@ -300,8 +310,9 @@ class Controller {
 	}
 
 	function admin_usersave(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_user_edit");
 
@@ -346,8 +357,9 @@ class Controller {
 	}
 
 	public function admin_meme_overview(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 		$this->title = $this->getTranslation("pagetitle_admin_meme_overview");
 		$this->title = "Admin meme overview";
@@ -356,8 +368,9 @@ class Controller {
 	}
 
 	public function addMemes(Request $request) {
-		//TODO ADD ADMIN SECURITY
-		$this->isAdmin = true;
+		if(!$this->isAdmin){
+			return $this->internalRedirect('forbidden',$request);
+		}
 		$this->initializeController($request);
 
 		if(!$request->isParameter("subreddit")){
